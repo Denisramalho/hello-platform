@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -15,8 +16,12 @@ func main() {
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
+	env := os.Getenv("APP_ENV")
+	if env == "" {
+		env = "dev"
+	}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+	json.NewEncoder(w).Encode(map[string]string{"status": "ok", "env": env})
 }
 
 func handleHealth(w http.ResponseWriter, r *http.Request) {
