@@ -16,6 +16,10 @@ func main() {
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
 	env := os.Getenv("APP_ENV")
 	if env == "" {
 		env = "dev"
